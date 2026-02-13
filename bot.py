@@ -17,6 +17,10 @@ TOKEN = os.getenv("BOT_TOKEN")
 LOGO_URL = "https://tgwos.github.io/mini-app1/gas-cloud-logo.png"
 CATALOG_URL = "https://tgwos.github.io/mini-app1/"
 
+TELEGRAM_GROUP_URL = "https://t.me/+iMgIPdF4HPswMDRh"
+SIGNAL_GROUP_URL = "https://signal.me/#eu/CgfgU9UgZDG_PkIW19RZU90SY6WyRcInKywqHGpPorTDNai1pUFDc67sIUINOKeJ"
+REVIEWS_CHANNEL_URL = "https://t.me/GASCLOUD_reviews"
+
 # 🔹 Tastiera principale
 def main_keyboard():
     return InlineKeyboardMarkup([
@@ -30,6 +34,24 @@ def main_keyboard():
             InlineKeyboardButton(
                 "📞 Contatti ufficiali",
                 callback_data="contacts"
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                "👥 canale Telegram",
+                url=https://t.me/+iMgIPdF4HPswMDRh
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                "🔐 Gruppo Signal",
+                url=https://signal.group/#CjQKIDujiZdq6QYIPqOVMwE8I2utpG27IFlHr3NcGuX9rg7nEhB5oZDrOOzWhaoX4bTSIZ4W
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                "⭐ Canale Recensioni",
+                url=https://t.me/+l_7fa3bXhGpjMTRh
             )
         ]
     ])
@@ -64,14 +86,14 @@ async def buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if query.data == "contacts":
         await query.edit_message_caption(
             caption=(
-    "📱 *CONTATTI UFFICIALI*\n\n"
-    "✈️ *TELEGRAM*\n"
-    "@GASCLOUD2\n\n"
-    "📶 *SIGNAL*\n"
-    "https://signal.me/#eu/CgfgU9UgZDG\\_PkIW19RZU90SY6WyRcInKywqHGpPorTDNai1pUFDc67sIUINOKeJ\n\n"
-    "🥔 *POTATO*\n"
-    "https://tutuduanyu.org/GASCLOUD2"
-),
+                "📱 *CONTATTI UFFICIALI*\n\n"
+                "✈️ *TELEGRAM*\n"
+                "@GASCLOUD2\n\n"
+                "📶 *SIGNAL*\n"
+                "https://signal.me/#eu/CgfgU9UgZDG\\_PkIW19RZU90SY6WyRcInKywqHGpPorTDNai1pUFDc67sIUINOKeJ\n\n"
+                "🥔 *POTATO*\n"
+                "https://tutuduanyu.org/GASCLOUD2"
+            ),
             reply_markup=back_keyboard(),
             parse_mode="Markdown"
         )
