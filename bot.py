@@ -70,6 +70,8 @@ async def buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 "https://t.me/+iMgIPdF4HPswMDRh\n\n"
                 "*SIGNAL:*\n"
                 "https://signal.me/#eu/CgfgU9UgZDG_PkIW19RZU90SY6WyRcInKywqHGpPorTDNai1pUFDc67sIUINOKeJ"
+                "*POTATO:*\n"
+                 "https://tutuduanyu.org/GASCLOUD2"
             ),
             reply_markup=back_keyboard(),
             parse_mode="Markdown"
@@ -90,5 +92,5 @@ def main():
     app.add_handler(CallbackQueryHandler(buttons))
     app.run_polling()
 
-if name == "__main__":
+if __name__ == "__main__":
     main()
