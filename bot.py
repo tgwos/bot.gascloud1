@@ -64,14 +64,14 @@ async def buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if query.data == "contacts":
         await query.edit_message_caption(
             caption=(
-                "📱 *CONTATTI UFFICIALI*\n\n"
-                "*TELEGRAM:*\n"
-                "@GASCLOUD2\n"
-                "*SIGNAL:*\n"
-                "https://signal.me/#eu/CgfgU9UgZDG\\_PkIW19RZU90SY6WyRcInKywqHGpPorTDNai1pUFDc67sIUINOKeJ"
-                "*POTATO:*\n"
-                "https://tutuduanyu.org/GASCLOUD2\n"
-            ),
+    "📱 *CONTATTI UFFICIALI*\n\n"
+    "✈️ *TELEGRAM*\n"
+    "@GASCLOUD2\n\n"
+    "📶 *SIGNAL*\n"
+    "https://signal.me/#eu/CgfgU9UgZDG\\_PkIW19RZU90SY6WyRcInKywqHGpPorTDNai1pUFDc67sIUINOKeJ\n\n"
+    "🥔 *POTATO*\n"
+    "https://tutuduanyu.org/GASCLOUD2"
+),
             reply_markup=back_keyboard(),
             parse_mode="Markdown"
         )
