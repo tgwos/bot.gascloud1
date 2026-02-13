@@ -22,7 +22,7 @@ CATALOG_URL = "https://tgwos.github.io/mini-app1/"
 TELEGRAM_GROUP_URL = "https://t.me/+iMgIPdF4HPswMDRh"
 SIGNAL_GROUP_URL = "https://signal.group/#CjQKIDujiZdq6QYIPqOVMwE8I2utpG27IFlHr3NcGuX9rg7nEhB5oZDrOOzWhaoX4bTSIZ4W"
 REVIEWS_CHANNEL_URL = "https://t.me/+l_7fa3bXhGpjMTRh"
-
+RISERVA_CHANNEL_URL = "https://t.me/+Aaw_vDmJbUc5NWFh"
 # 🔹 Tastiera principale
 def main_keyboard():
     return InlineKeyboardMarkup([
@@ -54,6 +54,13 @@ def main_keyboard():
             InlineKeyboardButton(
                 "⭐ Canale Recensioni",
                 url=REVIEWS_CHANNEL_URL
+            )
+        ]
+    ],
+                                [
+            InlineKeyboardButton(
+                "🔹Canale Riserva",
+                url=RISERVA_CHANNEL_URL
             )
         ]
     ])
@@ -103,8 +110,8 @@ async def buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif query.data == "back":
         await query.edit_message_caption(
             caption=(
-                "WELCOME TO THE GAS CLOUD BOT!\n\n"
-                "TO OPEN THE CATALOGUE PRESS ON THE MINI APP BUTTON."
+                "BENVENUTI SU GAS CLOUD BOT!\n\n"
+                "PER APRIRE IL CATALOGO PREMERE IL PULSANTE APRI CATALOGO."
             ),
             reply_markup=main_keyboard()
         )
