@@ -62,22 +62,22 @@ async def buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await query.answer()
 
     if query.data == "contacts":
-        await query.edit_message_text(
-            text=(
-                "📱 *contatti ufficili*\n\n"
+        await query.edit_message_caption(
+            caption=(
+                "📱 *CONTATTI UFFICIALI*\n\n"
                 "*TELEGRAM:*\n"
                 "@GASCLOUD2\n"
-                "\nhttps://t.me/+iMgIPdF4HPswMDRh\n"
+                "https://t.me/+iMgIPdF4HPswMDRh\n\n"
                 "*SIGNAL:*\n"
-                "https://signal.me/#eu/CgfgU9UgZDG_PkIW19RZU90SY6WyRcInKywqHGpPorTDNai1pUFDc67sIUINOKeJ\n"
+                "https://signal.me/#eu/CgfgU9UgZDG_PkIW19RZU90SY6WyRcInKywqHGpPorTDNai1pUFDc67sIUINOKeJ"
             ),
             reply_markup=back_keyboard(),
             parse_mode="Markdown"
         )
 
     elif query.data == "back":
-        await query.edit_message_text(
-            text=(
+        await query.edit_message_caption(
+            caption=(
                 "WELCOME TO THE GAS CLOUD BOT!\n\n"
                 "TO OPEN THE CATALOGUE PRESS ON THE MINI APP BUTTON."
             ),
@@ -90,5 +90,5 @@ def main():
     app.add_handler(CallbackQueryHandler(buttons))
     app.run_polling()
 
-if __name__ == "__main__":
+if name == "__main__":
     main()
