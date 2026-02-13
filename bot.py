@@ -4,19 +4,29 @@ from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 
 TOKEN = os.getenv("BOT_TOKEN")
 
+# URL diretto del logo (PNG/JPG)
+LOGO_URL = "xxxxxxxxxxxxxx"
+
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [
-        [InlineKeyboardButton(
-            "📦 Apri Catalogo",
-            web_app=WebAppInfo(
-                url="https://tgwos.github.io/mini-app1/"
+        [
+            InlineKeyboardButton(
+                text="📦 Apri Catalogo",
+                web_app=WebAppInfo(
+                    url="xxxxxxxxxxxxxxx"
+                )
             )
-        )]
+        ]
     ]
 
-    await update.message.reply_text(
+    caption = (
         "WELCOME TO THE SQUAD BCN OFFICIAL BOT!\n\n"
-        "TO OPEN THE CATALOGUE PRESS ON THE MINI APP BUTTON.",
+        "TO OPEN THE CATALOGUE PRESS ON THE MINI APP BUTTON."
+    )
+
+    await update.message.reply_photo(
+        photo=LOGO_URL,
+        caption=caption,
         reply_markup=InlineKeyboardMarkup(keyboard)
     )
 
