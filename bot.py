@@ -82,7 +82,6 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         photo=LOGO_URL,
         caption=(
             "\nBENVENUTI SU GAS CLOUD BOT!\n"
-            "PER APRIRE IL CATALOGO PREMERE IL PULSANTE APRI CATALOGO."
         ),
         reply_markup=main_keyboard()
     )
@@ -111,7 +110,6 @@ async def buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await query.edit_message_caption(
             caption=(
                 "BENVENUTI SU GAS CLOUD BOT!\n\n"
-                "PER APRIRE IL CATALOGO PREMERE IL PULSANTE APRI CATALOGO."
             ),
             reply_markup=main_keyboard()
         )
