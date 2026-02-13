@@ -20,7 +20,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     ]
 
     caption = (
-        "WELCOME TO THE SQUAD BCN OFFICIAL BOT!\n\n"
+        "WELCOME TO THE GAS CLOUD BOT!\n\n"
         "TO OPEN THE CATALOGUE PRESS ON THE MINI APP BUTTON."
     )
 
