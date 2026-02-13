@@ -5,7 +5,7 @@ from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 TOKEN = os.getenv("BOT_TOKEN")
 
 # URL diretto del logo (PNG/JPG)
-LOGO_URL = "gas-cloud-logo.png"
+LOGO_URL = "https://tgwos.github.io/mini-app1/gas-cloud-logo.png"
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [
@@ -13,7 +13,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
             InlineKeyboardButton(
                 text="📦 Apri Catalogo",
                 web_app=WebAppInfo(
-                    url="xxxxxxxxxxxxxxx"
+                    url="https://tgwos.github.io/mini-app1/"
                 )
             )
         ]
