@@ -9,7 +9,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         [InlineKeyboardButton(
             "📦 Apri Catalogo",
             web_app=WebAppInfo(
-                url="ggggggg"
+                url="https://tgwos.github.io/mini-app1/"
             )
         )]
     ]
