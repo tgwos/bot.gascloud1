@@ -5,7 +5,7 @@ from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 TOKEN = os.getenv("BOT_TOKEN")
 
 # URL diretto del logo (PNG/JPG)
-LOGO_URL = "xxxxxxxxxxxxxx"
+LOGO_URL = "gas-cloud-logo.png"
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [
