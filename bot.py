@@ -2,7 +2,7 @@ import os
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 
-TOKEN = os.getenv("8501302099:AAEeCC2VYykYXnenUJvo7ZSPe1odTupR-Mg")
+TOKEN = os.getenv("BOT_TOKEN")
 
 # URL diretto del logo (PNG/JPG)
 LOGO_URL = "https://tgwos.github.io/mini-app1/gas-cloud-logo.png"
