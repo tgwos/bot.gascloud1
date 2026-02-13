@@ -81,7 +81,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_photo(
         photo=LOGO_URL,
         caption=(
-            "\nBENVENUTI SU GAS CLOUD BOT!\n"
+            "\nBENVENUTI SU GAS CLOUD BOT.\n"
         ),
         reply_markup=main_keyboard()
     )
@@ -109,7 +109,7 @@ async def buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif query.data == "back":
         await query.edit_message_caption(
             caption=(
-                "BENVENUTI SU GAS CLOUD BOT!\n\n"
+                "BENVENUTI SU GAS CLOUD BOT.\n\n"
             ),
             reply_markup=main_keyboard()
         )
