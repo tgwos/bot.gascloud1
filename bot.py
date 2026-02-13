@@ -67,11 +67,8 @@ async def buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 "📱 *CONTATTI UFFICIALI*\n\n"
                 "*TELEGRAM:*\n"
                 "@GASCLOUD2\n"
-                "https://t.me/+iMgIPdF4HPswMDRh\n\n"
                 "*SIGNAL:*\n"
-                "https://signal.me/#eu/CgfgU9UgZDG_PkIW19RZU90SY6WyRcInKywqHGpPorTDNai1pUFDc67sIUINOKeJ"
-                "*POTATO:*\n"
-                 "https://tutuduanyu.org/GASCLOUD2"
+                "https://signal.me/#eu/CgfgU9UgZDG\\_PkIW19RZU90SY6WyRcInKywqHGpPorTDNai1pUFDc67sIUINOKeJ"
             ),
             reply_markup=back_keyboard(),
             parse_mode="Markdown"
