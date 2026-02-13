@@ -81,8 +81,8 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_photo(
         photo=LOGO_URL,
         caption=(
-            "WELCOME TO THE GAS CLOUD BOT!\n\n"
-            "TO OPEN THE CATALOGUE PRESS ON THE MINI APP BUTTON."
+            "\nBENVENUTI SU GAS CLOUD BOT!\n"
+            "PER APRIRE IL CATALOGO PREMERE IL PULSANTE APRI CATALOGO."
         ),
         reply_markup=main_keyboard()
     )
