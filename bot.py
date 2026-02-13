@@ -12,14 +12,16 @@ from telegram.ext import (
     ContextTypes
 )
 
+# 🔐 TOKEN
 TOKEN = os.getenv("BOT_TOKEN")
 
+# 🌐 URL
 LOGO_URL = "https://tgwos.github.io/mini-app1/gas-cloud-logo.png"
 CATALOG_URL = "https://tgwos.github.io/mini-app1/"
 
 TELEGRAM_GROUP_URL = "https://t.me/+iMgIPdF4HPswMDRh"
-SIGNAL_GROUP_URL = "https://signal.me/#eu/CgfgU9UgZDG_PkIW19RZU90SY6WyRcInKywqHGpPorTDNai1pUFDc67sIUINOKeJ"
-REVIEWS_CHANNEL_URL = "https://t.me/GASCLOUD_reviews"
+SIGNAL_GROUP_URL = "https://signal.group/#CjQKIDujiZdq6QYIPqOVMwE8I2utpG27IFlHr3NcGuX9rg7nEhB5oZDrOOzWhaoX4bTSIZ4W"
+REVIEWS_CHANNEL_URL = "https://t.me/+l_7fa3bXhGpjMTRh"
 
 # 🔹 Tastiera principale
 def main_keyboard():
@@ -38,20 +40,20 @@ def main_keyboard():
         ],
         [
             InlineKeyboardButton(
-                "👥 canale Telegram",
-                url=https://t.me/+iMgIPdF4HPswMDRh
+                "👥 Canale Telegram",
+                url=TELEGRAM_GROUP_URL
             )
         ],
         [
             InlineKeyboardButton(
                 "🔐 Gruppo Signal",
-                url=https://signal.group/#CjQKIDujiZdq6QYIPqOVMwE8I2utpG27IFlHr3NcGuX9rg7nEhB5oZDrOOzWhaoX4bTSIZ4W
+                url=SIGNAL_GROUP_URL
             )
         ],
         [
             InlineKeyboardButton(
                 "⭐ Canale Recensioni",
-                url=https://t.me/+l_7fa3bXhGpjMTRh
+                url=REVIEWS_CHANNEL_URL
             )
         ]
     ])
@@ -107,11 +109,13 @@ async def buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
             reply_markup=main_keyboard()
         )
 
+# 🔹 Avvio bot
 def main():
     app = ApplicationBuilder().token(TOKEN).build()
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CallbackQueryHandler(buttons))
     app.run_polling()
 
-if __name__ == "__main__":
+# ✅ OBBLIGATORIO
+if name == "__main__":
     main()
