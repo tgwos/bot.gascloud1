@@ -23,6 +23,7 @@ TELEGRAM_GROUP_URL = "https://t.me/+iMgIPdF4HPswMDRh"
 SIGNAL_GROUP_URL = "https://signal.group/#CjQKIDujiZdq6QYIPqOVMwE8I2utpG27IFlHr3NcGuX9rg7nEhB5oZDrOOzWhaoX4bTSIZ4W"
 REVIEWS_CHANNEL_URL = "https://t.me/+l_7fa3bXhGpjMTRh"
 RISERVA_CHANNEL_URL = "https://t.me/+Aaw_vDmJbUc5NWFh"
+
 # 🔹 Tastiera principale
 def main_keyboard():
     return InlineKeyboardMarkup([
@@ -55,11 +56,10 @@ def main_keyboard():
                 "⭐ Canale Recensioni",
                 url=REVIEWS_CHANNEL_URL
             )
-        ]
-    ],
-                                [
+        ],
+        [
             InlineKeyboardButton(
-                "🔹Canale Riserva",
+                "🔹 Canale Riserva",
                 url=RISERVA_CHANNEL_URL
             )
         ]
@@ -123,6 +123,6 @@ def main():
     app.add_handler(CallbackQueryHandler(buttons))
     app.run_polling()
 
-# ✅ OBBLIGATORIO
-if __name__ == "__main__":
+# ✅ QUESTO FA PARTIRE IL BOT
+if name == "__main__":
     main()
