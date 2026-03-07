@@ -16,7 +16,7 @@ from telegram.ext import (
 TOKEN = os.getenv("BOT_TOKEN")
 
 # 🌐 URL
-LOGO_URL = "https://tgwos.github.io/mini-app1/gas-cloud-logo.png"
+LOGO_URL = "https://tgwos.github.io/mini-app1/4985865506745158660.jpg"
 CATALOG_URL = "https://tgwos.github.io/mini-app1/"
 
 TELEGRAM_GROUP_URL = "https://t.me/+iMgIPdF4HPswMDRh"
