@@ -21,7 +21,7 @@ CATALOG_URL = "https://tgwos.github.io/mini-app1/"
 
 TELEGRAM_GROUP_URL = "https://t.me/+iMgIPdF4HPswMDRh"
 SIGNAL_GROUP_URL = "https://signal.group/#CjQKIDujiZdq6QYIPqOVMwE8I2utpG27IFlHr3NcGuX9rg7nEhB5oZDrOOzWhaoX4bTSIZ4W"
-REVIEWS_CHANNEL_URL = "https://t.me/+l_7fa3bXhGpjMTRh"
+REVIEWS_CHANNEL_URL = "https://t.me/+iJEzfG3m4BpjZjk0"
 RISERVA_CHANNEL_URL = "https://t.me/+Aaw_vDmJbUc5NWFh"
 
 # 🔹 Tastiera principale
