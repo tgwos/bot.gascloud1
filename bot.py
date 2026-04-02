@@ -19,7 +19,7 @@ TOKEN = os.getenv("BOT_TOKEN")
 LOGO_URL = "https://tgwos.github.io/mini-app1/4985865506745158660.jpg"
 CATALOG_URL = "https://tgwos.github.io/mini-app1/"
 
-TELEGRAM_GROUP_URL = "https://t.me/+iMgIPdF4HPswMDRh"
+TELEGRAM_GROUP_URL = "https://t.me/+VL6vtM-sl4lkNDdh"
 SIGNAL_GROUP_URL = "https://signal.group/#CjQKIDujiZdq6QYIPqOVMwE8I2utpG27IFlHr3NcGuX9rg7nEhB5oZDrOOzWhaoX4bTSIZ4W"
 REVIEWS_CHANNEL_URL = "https://t.me/+iJEzfG3m4BpjZjk0"
 RISERVA_CHANNEL_URL = "https://t.me/+Aaw_vDmJbUc5NWFh"
@@ -96,7 +96,7 @@ async def buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
             caption=(
                 "📱 *CONTATTI UFFICIALI*\n\n"
                 "✈️ *TELEGRAM*\n"
-                "@GASCLOUD2\n\n"
+                "@GASCLOUD3\n\n"
                 "📶 *SIGNAL*\n"
                 "https://signal.me/#eu/CgfgU9UgZDG\\_PkIW19RZU90SY6WyRcInKywqHGpPorTDNai1pUFDc67sIUINOKeJ\n\n"
                 
