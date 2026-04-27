@@ -19,7 +19,7 @@ TOKEN = os.getenv("BOT_TOKEN")
 DATA_DIR = Path("/app/data") if Path("/app/data").exists() else Path(".")
 USERS_FILE = DATA_DIR / "users.json"
 
-ADMIN_IDS = {8596364759}  # METTI IL TUO ID
+ADMIN_IDS = {8679301783}  # METTI IL TUO ID
 
 LOGO_URL = "https://tgwos.github.io/mini-app1/4985865506745158660.jpg"
 CATALOG_URL = "https://tgwos.github.io/mini-app1/"
@@ -134,7 +134,7 @@ async def buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     if query.data == "contacts":
         await query.edit_message_caption(
-            caption="CONTATTI:\n@GASCLOUD4",
+            caption="CONTATTI:\n@GASCLOUD5",
             reply_markup=back_keyboard(),
         )
     elif query.data == "back":
