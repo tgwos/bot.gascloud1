@@ -128,7 +128,7 @@ async def buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     if query.data == "contacts":
         await query.edit_message_caption(
-            caption="CONTATTI:\n@GASCLOUD5",
+            caption="CONTATTI:\n@GASCLOUD5\n<ahref='https://signal.me/#eu/CgfgU9UgZDG_PkIW19RZU90SY6WyRcInKywqHGpPorTDNai1pUFDc67sIUINOKeJ'>Signal</a>",
             reply_markup=back_keyboard(),
         )
 
