@@ -2,6 +2,8 @@ import os
 import json
 import asyncio
 from pathlib import Path
+from datetime import datetime
+
 from telegram import (
     Update,
     InlineKeyboardButton,
@@ -16,10 +18,11 @@ from telegram.ext import (
 )
 
 TOKEN = os.getenv("BOT_TOKEN")
-DATA_DIR = Path("/app/data") if Path("/app/data").exists() else Path(".")
+
+DATA_DIR = Path("/app/data")
 USERS_FILE = DATA_DIR / "users.json"
 
-ADMIN_IDS = {8679301783}  # METTI IL TUO ID
+ADMIN_IDS = {8679301783}  # METTI IL TUO ID TELEGRAM
 
 LOGO_URL = "https://tgwos.github.io/mini-app1/4985865506745158660.jpg"
 CATALOG_URL = "https://tgwos.github.io/mini-app1/"
@@ -30,17 +33,30 @@ REVIEWS_CHANNEL_URL = "https://t.me/+iJEzfG3m4BpjZjk0"
 RISERVA_CHANNEL_URL = "https://t.me/+q15T2C4feBsxOTJh"
 
 
+# ---------- STORAGE UTENTI ----------
+
 def load_users():
+    USERS_FILE.parent.mkdir(parents=True, exist_ok=True)
+
     if not USERS_FILE.exists():
         return {}
-    with open(USERS_FILE, "r") as f:
-        return json.load(f)
+
+    try:
+        with open(USERS_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return {}
 
 
 def save_users(users):
     USERS_FILE.parent.mkdir(parents=True, exist_ok=True)
-    with open(USERS_FILE, "w") as f:
-        json.dump(users, f, indent=2)
+
+    temp_file = USERS_FILE.with_suffix(".tmp")
+
+    with open(temp_file, "w", encoding="utf-8") as f:
+        json.dump(users, f, indent=2, ensure_ascii=False)
+
+    temp_file.replace(USERS_FILE)
 
 
 async def register_user(update: Update):
@@ -52,18 +68,28 @@ async def register_user(update: Update):
 
     users = load_users()
     key = str(user.id)
+    now = datetime.utcnow().isoformat()
+
     is_new = key not in users
+    old_data = users.get(key, {})
 
     users[key] = {
+        "user_id": user.id,
         "chat_id": chat.id,
         "username": user.username or "",
+        "first_name": user.first_name or "",
+        "last_name": user.last_name or "",
+        "language_code": user.language_code or "",
+        "first_seen": old_data.get("first_seen", now),
+        "last_seen": now,
+        "blocked": False,
     }
 
     save_users(users)
     return is_new
 
 
-# ---------- BOT ----------
+# ---------- TASTI ----------
 
 def main_keyboard():
     return InlineKeyboardMarkup([
@@ -82,8 +108,13 @@ def back_keyboard():
     ])
 
 
+# ---------- COMANDI BOT ----------
+
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await register_user(update)
+
+    print("FILE UTENTI:", USERS_FILE.resolve())
+
     await update.message.reply_photo(
         photo=LOGO_URL,
         caption="BENVENUTO",
@@ -91,13 +122,60 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
 
+async def buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    query = update.callback_query
+    await query.answer()
+
+    await register_user(update)
+
+    if query.data == "contacts":
+        await query.edit_message_caption(
+            caption="CONTATTI:\n@GASCLOUD5",
+            reply_markup=back_keyboard(),
+        )
+
+    elif query.data == "back":
+        await query.edit_message_caption(
+            caption="BENVENUTO",
+            reply_markup=main_keyboard(),
+        )
+
+
 # ---------- ADMIN ----------
 
 async def export(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.effective_user.id not in ADMIN_IDS:
         return
+
+    users = load_users()
+
+    if not users:
+        await update.message.reply_text("Nessun utente salvato.")
+        return
+
     with open(USERS_FILE, "rb") as f:
-        await update.message.reply_document(f)
+        await update.message.reply_document(
+            document=f,
+            filename="users.json",
+            caption=f"Utenti salvati: {len(users)}"
+        )
+
+
+async def stats(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if update.effective_user.id not in ADMIN_IDS:
+        return
+
+    users = load_users()
+    total = len(users)
+    blocked = sum(1 for u in users.values() if u.get("blocked"))
+    active = total - blocked
+
+    await update.message.reply_text(
+        f"📊 Statistiche utenti\n\n"
+        f"Totali: {total}\n"
+        f"Attivi: {active}\n"
+        f"Bloccati/falliti: {blocked}"
+    )
 
 
 async def broadcast(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -111,52 +189,61 @@ async def broadcast(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text = " ".join(context.args)
     users = load_users()
 
+    if not users:
+        await update.message.reply_text("Nessun utente salvato.")
+        return
+
+    await update.message.reply_text(f"Broadcast avviato verso {len(users)} utenti...")
+
     sent = 0
     failed = 0
 
     for uid, data in list(users.items()):
+        if data.get("blocked") is True:
+            continue
+
         try:
-            await context.bot.send_message(data["chat_id"], text)
+            await context.bot.send_message(
+                chat_id=data["chat_id"],
+                text=text
+            )
             sent += 1
             await asyncio.sleep(0.05)
+
         except Exception:
             failed += 1
-            users.pop(uid, None)  # rimuove utenti morti
+            users[uid]["blocked"] = True
 
     save_users(users)
 
-    await update.message.reply_text(f"Inviati: {sent} | Rimossi: {failed}")
+    await update.message.reply_text(
+        f"✅ Broadcast completato\n\n"
+        f"Inviati: {sent}\n"
+        f"Falliti/bloccati: {failed}"
+    )
 
 
-async def buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    query = update.callback_query
-    await query.answer()
-
-    if query.data == "contacts":
-        await query.edit_message_caption(
-            caption="CONTATTI:\n@GASCLOUD5",
-            reply_markup=back_keyboard(),
-        )
-    elif query.data == "back":
-        await query.edit_message_caption(
-            caption="BENVENUTO",
-            reply_markup=main_keyboard(),
-        )
-
-
-# ---------- START ----------
+# ---------- START APP ----------
 
 def main():
+    if not TOKEN:
+        raise RuntimeError("BOT_TOKEN non trovato nelle variabili Railway")
+
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
+
     app = ApplicationBuilder().token(TOKEN).build()
 
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("export", export))
+    app.add_handler(CommandHandler("stats", stats))
     app.add_handler(CommandHandler("broadcast", broadcast))
     app.add_handler(CallbackQueryHandler(buttons))
+
+    print("BOT AVVIATO")
+    print("USERS_FILE:", USERS_FILE.resolve())
 
     app.run_polling()
 
 
 if __name__ == "__main__":
     main()
-
