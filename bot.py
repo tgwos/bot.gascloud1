@@ -22,7 +22,7 @@ TOKEN = os.getenv("BOT_TOKEN")
 DATA_DIR = Path("/app/data")
 USERS_FILE = DATA_DIR / "users.json"
 
-ADMIN_IDS = {8679301783}  # METTI IL TUO ID TELEGRAM
+ADMIN_IDS = {8679301783}  # IL TUO ID TELEGRAM
 
 LOGO_URL = "https://tgwos.github.io/mini-app1/4985865506745158660.jpg"
 CATALOG_URL = "https://tgwos.github.io/mini-app1/"
@@ -33,7 +33,7 @@ REVIEWS_CHANNEL_URL = "https://t.me/+iJEzfG3m4BpjZjk0"
 RISERVA_CHANNEL_URL = "https://t.me/+q15T2C4feBsxOTJh"
 
 
-# ---------- STORAGE UTENTI ----------
+# ---------- STORAGE ----------
 
 def load_users():
     USERS_FILE.parent.mkdir(parents=True, exist_ok=True)
@@ -70,7 +70,6 @@ async def register_user(update: Update):
     key = str(user.id)
     now = datetime.utcnow().isoformat()
 
-    is_new = key not in users
     old_data = users.get(key, {})
 
     users[key] = {
@@ -82,11 +81,12 @@ async def register_user(update: Update):
         "language_code": user.language_code or "",
         "first_seen": old_data.get("first_seen", now),
         "last_seen": now,
-        "blocked": False,
+        "blocked": old_data.get("blocked", False),
+        "imported": old_data.get("imported", False),
     }
 
     save_users(users)
-    return is_new
+    return key not in old_data
 
 
 # ---------- TASTI ----------
@@ -108,12 +108,10 @@ def back_keyboard():
     ])
 
 
-# ---------- COMANDI BOT ----------
+# ---------- BOT ----------
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await register_user(update)
-
-    print("FILE UTENTI:", USERS_FILE.resolve())
 
     await update.message.reply_photo(
         photo=LOGO_URL,
@@ -143,6 +141,76 @@ async def buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 # ---------- ADMIN ----------
 
+async def import_users(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if update.effective_user.id not in ADMIN_IDS:
+        return
+
+    users = load_users()
+
+    text = update.message.text.replace("/import", "", 1).strip()
+
+    if not text:
+        await update.message.reply_text(
+            "Uso:\n/import 👤 123456789\n👦🏻 Nome\n🌐 @username"
+        )
+        return
+
+    lines = text.split("\n")
+
+    current_id = None
+    current_name = ""
+    current_username = ""
+    imported = 0
+    updated = 0
+
+    for line in lines:
+        line = line.strip()
+
+        if "👤" in line:
+            digits = "".join(filter(str.isdigit, line))
+            current_id = int(digits) if digits else None
+            current_name = ""
+            current_username = ""
+
+        elif "👦🏻" in line:
+            current_name = line.replace("👦🏻", "").strip()
+
+        elif "🌐 @" in line:
+            current_username = line.split("@", 1)[1].strip()
+
+            if current_id:
+                key = str(current_id)
+                old_data = users.get(key, {})
+                now = datetime.utcnow().isoformat()
+
+                if key in users:
+                    updated += 1
+                else:
+                    imported += 1
+
+                users[key] = {
+                    "user_id": current_id,
+                    "chat_id": old_data.get("chat_id", current_id),
+                    "username": current_username,
+                    "first_name": current_name,
+                    "last_name": old_data.get("last_name", ""),
+                    "language_code": old_data.get("language_code", ""),
+                    "first_seen": old_data.get("first_seen", now),
+                    "last_seen": now,
+                    "blocked": old_data.get("blocked", False),
+                    "imported": True,
+                }
+
+    save_users(users)
+
+    await update.message.reply_text(
+        f"✅ Import completato\n\n"
+        f"Nuovi utenti: {imported}\n"
+        f"Aggiornati: {updated}\n"
+        f"Totale salvati: {len(users)}"
+    )
+
+
 async def export(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.effective_user.id not in ADMIN_IDS:
         return
@@ -166,15 +234,18 @@ async def stats(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
 
     users = load_users()
+
     total = len(users)
     blocked = sum(1 for u in users.values() if u.get("blocked"))
     active = total - blocked
+    imported = sum(1 for u in users.values() if u.get("imported"))
 
     await update.message.reply_text(
         f"📊 Statistiche utenti\n\n"
         f"Totali: {total}\n"
         f"Attivi: {active}\n"
-        f"Bloccati/falliti: {blocked}"
+        f"Bloccati/falliti: {blocked}\n"
+        f"Importati manualmente: {imported}"
     )
 
 
@@ -197,9 +268,11 @@ async def broadcast(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     sent = 0
     failed = 0
+    skipped = 0
 
     for uid, data in list(users.items()):
         if data.get("blocked") is True:
+            skipped += 1
             continue
 
         try:
@@ -219,21 +292,23 @@ async def broadcast(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
         f"✅ Broadcast completato\n\n"
         f"Inviati: {sent}\n"
-        f"Falliti/bloccati: {failed}"
+        f"Falliti/bloccati: {failed}\n"
+        f"Saltati già bloccati: {skipped}"
     )
 
 
-# ---------- START APP ----------
+# ---------- AVVIO ----------
 
 def main():
     if not TOKEN:
-        raise RuntimeError("BOT_TOKEN non trovato nelle variabili Railway")
+        raise RuntimeError("BOT_TOKEN non trovato su Railway")
 
     DATA_DIR.mkdir(parents=True, exist_ok=True)
 
     app = ApplicationBuilder().token(TOKEN).build()
 
     app.add_handler(CommandHandler("start", start))
+    app.add_handler(CommandHandler("import", import_users))
     app.add_handler(CommandHandler("export", export))
     app.add_handler(CommandHandler("stats", stats))
     app.add_handler(CommandHandler("broadcast", broadcast))
