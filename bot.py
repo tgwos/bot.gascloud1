@@ -93,13 +93,7 @@ async def register_user(update: Update):
 def main_keyboard():
     return InlineKeyboardMarkup([
         [InlineKeyboardButton("📦 Apri Catalogo", web_app=WebAppInfo(url=CATALOG_URL))],
-        [InlineKeyboardButton("📞 Contatti ufficiali", callback_data="contacts")],
-    
-        [InlineKeyboardButton("🔐 Gruppo Signal", url=SIGNAL_GROUP_URL)],
-        [InlineKeyboardButton("⭐ Recensioni", url=REVIEWS_CHANNEL_URL)],
-        [InlineKeyboardButton("🔹 Riserva", url=RISERVA_CHANNEL_URL)],
-    ])
-
+        
 
 def back_keyboard():
     return InlineKeyboardMarkup([
