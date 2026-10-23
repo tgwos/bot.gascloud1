@@ -16,6 +16,7 @@ from telegram.ext import (
     CallbackQueryHandler,
     ContextTypes,
 )
+from telegram.error import RetryAfter, Forbidden, TelegramError
 
 TOKEN = os.getenv("BOT_TOKEN")
 
@@ -244,6 +245,7 @@ async def stats(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
 
+
 async def broadcast(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.effective_user.id not in ADMIN_IDS:
         return
@@ -259,7 +261,10 @@ async def broadcast(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("Nessun utente salvato.")
         return
 
-    await update.message.reply_text(f"Broadcast avviato verso {len(users)} utenti...")
+    await update.message.reply_text(
+        f"Broadcast avviato verso {len(users)} utenti...\n"
+        f"Pausa tra gli invii: {BROADCAST_DELAY_SECONDS} secondi."
+    )
 
     sent = 0
     failed = 0
@@ -270,24 +275,61 @@ async def broadcast(update: Update, context: ContextTypes.DEFAULT_TYPE):
             skipped += 1
             continue
 
-        try:
-            await context.bot.send_message(
-                chat_id=data["chat_id"],
-                text=text
-            )
-            sent += 1
-            await asyncio.sleep(BROADCAST_DELAY_SECONDS)
+        retries = 0
 
-        except Exception:
-            failed += 1
-            users[uid]["blocked"] = True
+        while True:
+            try:
+                await context.bot.send_message(
+                    chat_id=data["chat_id"],
+                    text=text
+                )
+                sent += 1
+                break
+
+            except RetryAfter as exc:
+                if retries >= 3:
+                    failed += 1
+                    print(f"Troppi tentativi per {uid}.")
+                    break
+
+                retries += 1
+                retry_value = exc.retry_after
+
+                if hasattr(retry_value, "total_seconds"):
+                    wait_seconds = retry_value.total_seconds()
+                else:
+                    wait_seconds = float(retry_value)
+
+                print(
+                    f"Telegram richiede un'attesa di "
+                    f"{wait_seconds} secondi."
+                )
+                await asyncio.sleep(max(1.0, wait_seconds))
+
+            except Forbidden as exc:
+                failed += 1
+                users[uid]["blocked"] = True
+                print(f"Invio non consentito per {uid}: {exc}")
+                break
+
+            except TelegramError as exc:
+                failed += 1
+                print(f"Errore Telegram per {uid}: {exc}")
+                break
+
+            except Exception as exc:
+                failed += 1
+                print(f"Errore imprevisto per {uid}: {exc}")
+                break
+
+        await asyncio.sleep(BROADCAST_DELAY_SECONDS)
 
     save_users(users)
 
     await update.message.reply_text(
         f"✅ Broadcast completato\n\n"
         f"Inviati: {sent}\n"
-        f"Falliti/bloccati: {failed}\n"
+        f"Falliti: {failed}\n"
         f"Saltati già bloccati: {skipped}"
     )
 
