@@ -93,7 +93,7 @@ async def register_user(update: Update):
 def main_keyboard():
     return InlineKeyboardMarkup([
         [InlineKeyboardButton("📦 Apri Catalogo", web_app=WebAppInfo(url=CATALOG_URL))],
-        
+         ])
 
 def back_keyboard():
     return InlineKeyboardMarkup([
