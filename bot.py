@@ -27,6 +27,10 @@ ADMIN_IDS = {8999755188}  # IL TUO ID TELEGRAM
 LOGO_URL = "https://tgwos.github.io/mini-app1/4985865506745158660.jpg"
 CATALOG_URL = "https://tgwos.github.io/mini-app1/"
 
+TELEGRAM_GROUP_URL = "https://t.me/GASCLOUDRISERVA"
+SIGNAL_GROUP_URL = "https://signal.group/#CjQKIDujiZdq6QYIPqOVMwE8I2utpG27IFlHr3NcGuX9rg7nEhB5oZDrOOzWhaoX4bTSIZ4W"
+REVIEWS_CHANNEL_URL = "https://t.me/+iJEzfG3m4BpjZjk0"
+RISERVA_CHANNEL_URL = "https://t.me/GASCLOUDRISERVA"
 
 # ---------- STORAGE ----------
 
