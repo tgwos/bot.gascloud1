@@ -108,7 +108,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     await update.message.reply_photo(
         photo=LOGO_URL,
-        caption="BENVENUTO.\n\n AVVIA LA MINI APP PER PROSEGUIRE. ",
+        caption="BENVENUTO! \n\n Avvia la Mini App per proseguire. ",
         reply_markup=main_keyboard(),
     )
 
