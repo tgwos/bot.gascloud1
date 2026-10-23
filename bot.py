@@ -92,7 +92,7 @@ async def register_user(update: Update):
 
 def main_keyboard():
     return InlineKeyboardMarkup([
-        [InlineKeyboardButton("📦 Apri Catalogo", web_app=WebAppInfo(url=CATALOG_URL))],
+        [InlineKeyboardButton("📦 MINI APP ", web_app=WebAppInfo(url=CATALOG_URL))],
          ])
 
 def back_keyboard():
@@ -108,7 +108,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     await update.message.reply_photo(
         photo=LOGO_URL,
-        caption="BENVENUTO.\n\n VISTI I CONTINUI B4N DI T3L3GRAM TI CONSIGLIO DI SCARICARE S1GNAL E UNIRTI AL NOSTRO GRUPPO PER RIMANERE SEMPRE AGGIORNATO E IN CONTATTO CON NOI. ",
+        caption="BENVENUTO.\n\n AVVIA LA MINI APP PER PROSEGUIRE. ",
         reply_markup=main_keyboard(),
     )
 
