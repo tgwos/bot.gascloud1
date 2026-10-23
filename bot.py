@@ -94,7 +94,7 @@ def main_keyboard():
     return InlineKeyboardMarkup([
         [InlineKeyboardButton("📦 Apri Catalogo", web_app=WebAppInfo(url=CATALOG_URL))],
         [InlineKeyboardButton("📞 Contatti ufficiali", callback_data="contacts")],
-        [InlineKeyboardButton("👥 Canale Telegram", url=TELEGRAM_GROUP_URL)],
+    
         [InlineKeyboardButton("🔐 Gruppo Signal", url=SIGNAL_GROUP_URL)],
         [InlineKeyboardButton("⭐ Recensioni", url=REVIEWS_CHANNEL_URL)],
         [InlineKeyboardButton("🔹 Riserva", url=RISERVA_CHANNEL_URL)],
