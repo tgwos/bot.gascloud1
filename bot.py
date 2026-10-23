@@ -24,6 +24,8 @@ USERS_FILE = DATA_DIR / "users.json"
 
 ADMIN_IDS = {8999755188}  # IL TUO ID TELEGRAM
 
+BROADCAST_DELAY_SECONDS = 10.0
+
 LOGO_URL = "https://tgwos.github.io/mini-app1/4985865506745158660.jpg"
 CATALOG_URL = "https://tgwos.github.io/mini-app1/"
 
@@ -274,7 +276,7 @@ async def broadcast(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 text=text
             )
             sent += 1
-            await asyncio.sleep(0.05)
+            await asyncio.sleep(BROADCAST_DELAY_SECONDS)
 
         except Exception:
             failed += 1
