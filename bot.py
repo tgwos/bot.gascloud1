@@ -22,7 +22,7 @@ TOKEN = os.getenv("BOT_TOKEN")
 DATA_DIR = Path("/app/data")
 USERS_FILE = DATA_DIR / "users.json"
 
-ADMIN_IDS = {8679301783}  # IL TUO ID TELEGRAM
+ADMIN_IDS = {8999755188}  # IL TUO ID TELEGRAM
 
 LOGO_URL = "https://tgwos.github.io/mini-app1/4985865506745158660.jpg"
 CATALOG_URL = "https://tgwos.github.io/mini-app1/"
